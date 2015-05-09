@@ -3,7 +3,11 @@
     <CLASSES>
       <root url="jar://$M2_REPO$/antlr/antlr/2.7.7/antlr-2.7.7.jar!/" />
     </CLASSES>
-    <JAVADOC />
-    <SOURCES />
+    <JAVADOC>
+      <root url="jar://$M2_REPO$/antlr/antlr/2.7.7/antlr-2.7.7-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$M2_REPO$/antlr/antlr/2.7.7/antlr-2.7.7-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
