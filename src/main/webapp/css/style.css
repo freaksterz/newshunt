@@ -1,0 +1,123 @@
+.mt50{
+	margin-top: 50px;
+}
+
+.mb50{
+	margin-bottom: 50px;
+}
+
+.header-container{
+	background: none repeat scroll 0 0 black;
+    color: white;
+}
+
+#wordCloud{
+	min-height: 500px;
+	border: 1px solid #ccc;
+}
+
+.sliderLabel{
+	text-align: center;
+}
+
+.divider{
+	border-bottom: 1px solid grey;
+}
+
+#sliderContainer{
+	height: 470px;
+    overflow-y: scroll;
+	margin-bottom: 50px;
+}
+
+.active{
+	background-color: #428bca !important;
+    border-color: #357ebd !important;
+    color: #fff !important;
+}
+
+.center{
+	text-align: center;
+}
+
+/* slider css */
+
+
+
+.tooltip {
+    position: absolute;
+    z-index: 1020;
+    display: block;
+    padding: 5px;
+    font-size: 11px;
+    visibility: visible;
+    margin-top: -2px;
+    bottom:-175%;
+    margin-left: -1.5em;
+	opacity: 1;
+}
+
+.tooltip .tooltip-arrow {
+    top: -2;
+    left: 50%;
+    margin-left: -5px;
+    border-bottom: 5px solid #000000;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    position: absolute;
+    width: 0;
+    height: 0;
+	opacity: 1;
+}
+
+.tooltip-inner {
+    max-width: 200px;
+    padding: 3px 8px;
+    /*color: #ffffff;*/
+    text-align: center;
+    text-decoration: none;
+    /*background-color: #000000;*/
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+}
+
+.ui-slider {
+   /* background: black repeat-x bottom left;
+    border-bottom: 1px solid #EBEAE5;*/
+    height: 15px;
+    margin: 0;
+    padding: 0px;
+}
+
+.ui-slider-handle {
+    background: #ED6B51;
+    border-bottom: 1px solid #a8a79f;
+    border-right: 1px solid #a8a79f;
+    height: 20px;
+    width: 10px;
+    margin: 0;
+    padding: 0px;
+    display: inline-block;
+}
+
+.ui-slider-range {
+    height: 10px;
+    border-bottom: 3px solid red;
+    position: relative;
+}
+
+.ui-slider-handle {
+    background: #ED6B51 !important;
+    border-bottom: 1px solid #a8a79f !important;
+    border-right: 1px solid #a8a79f !important;
+    height: 20px !important;
+    width: 10px !important;
+    margin: 0 !important;
+    padding: 0px !important;
+    display: inline-block !important;
+    top: -4px !important;
+}
+
+
+/* slider css end */
