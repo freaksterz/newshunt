@@ -99,4 +99,37 @@ public class MongoLabConnection {
 
 			return seedData;
 		}
+
+    public static CommandResult searchText (String textToSearchFor, String collectionName){
+
+        MongoClient client = null;
+        DB db = null;
+        try {
+            MongoClientURI uri = new MongoClientURI(
+                    "mongodb://newshuntuser:newshuntpassword2015@dbh04.mongolab.com:27047/newshuntdatabse");
+
+            client = new MongoClient(uri);
+            db = client.getDB(uri.getDatabase());
+
+        } catch (UnknownHostException e)
+        {
+            e.printStackTrace();
+        }
+
+        collectionName = "documentstore";
+        textToSearchFor = "a";
+
+        final DBObject textSearchCommand = new BasicDBObject();
+        textSearchCommand.put("text", collectionName);
+        textSearchCommand.put("search", textToSearchFor);
+        final CommandResult commandResult = db.command(textSearchCommand);
+        System.out.println("commandResult = " + commandResult);
+        client.close();
+
+
+
+        return null;
+
+    }
+
 }
