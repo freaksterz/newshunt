@@ -11,9 +11,14 @@ import java.util.Arrays;
 /**
  * Created by freakster on 9/5/15.
  */
-public class StopRemoval {
+public class NLPUtil {
 
-    //
+    /**
+     * This is custom tokenizer class
+     * @param content
+     * @return
+     * @throws Exception
+     */
     public ArrayList<String> tokenizer(String content) throws Exception
     {
         ArrayList<String> lines = new ArrayList<>();
@@ -82,7 +87,7 @@ public class StopRemoval {
 
         String sample_wostop="";
 
-        ArrayList<String> samp= new StopRemoval().tokenizer(content);
+        ArrayList<String> samp= new NLPUtil().tokenizer(content);
 
         for (String string : samp) {
 

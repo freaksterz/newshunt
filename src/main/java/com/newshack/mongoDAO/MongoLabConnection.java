@@ -1,10 +1,7 @@
 package com.newshack.mongoDAO;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
+import java.util.*;
 
 import com.mongodb.*;
 
@@ -18,6 +15,7 @@ public class MongoLabConnection {
 	public static void main(String[] args) throws UnknownHostException,
 			InterruptedException {
 
+        //TODO- put this logic in the when servlet container starts and also implement purging algo to remove data which are not relevant
 		updateDocumentStore(); //load the database first time rest of the times it gets updated via thread
 		System.out.println("store updted");
 		Timer time = new Timer(); // Instantiate Timer Object
@@ -59,18 +57,39 @@ public class MongoLabConnection {
 
 	}
 
+    /**
+     * @author : Ganesh  refractor : freakster
+     *
+     * @param key
+     * @return
+     * @throws UnknownHostException
+     */
 	public static Map returnDocument(String key) throws UnknownHostException {
 
 		MongoClientURI uri = new MongoClientURI(
 				"mongodb://newshuntuser:newshuntpassword2015@dbh04.mongolab.com:27047/newshuntdatabse");
 		MongoClient client = new MongoClient(uri);
 		DB db = client.getDB(uri.getDatabase());
-		DBCollection documentstore = db.getCollection("documentstore");
-		DBCursor docs = documentstore.find();
-		Map collection = new HashMap<String, String>();
-		String[] temp = null;
+		DBCollection dbCollection = db.getCollection("documentstore");
+        Map collection = new HashMap<String, String>();
+        String[] temp = null;
+        DBCursor docs = null;
 
-		while (docs.hasNext()) {
+        if(key!=null)
+        {
+            //BasicDBObject query = new BasicDBObject("content", key);
+            BasicDBObject query = new BasicDBObject();
+            //BasicDBObject field = new BasicDBObject();
+            query.put(key,"document");
+
+            docs = dbCollection.find(query);
+        }else
+        {
+            docs = dbCollection.find();
+        }
+
+		while (docs.hasNext())
+        {
 			DBObject doc = docs.next();
 			temp = ((String) doc.get("document")).split("!####!");
 			collection.put(temp[0], temp[1]);
@@ -80,7 +99,7 @@ public class MongoLabConnection {
 
 		return collection;
 	}
-	
+
 	// Extra helper code
 
 		public static ArrayList<BasicDBObject> createSeedData(String url) {
@@ -100,36 +119,6 @@ public class MongoLabConnection {
 			return seedData;
 		}
 
-    public static CommandResult searchText (String textToSearchFor, String collectionName){
 
-        MongoClient client = null;
-        DB db = null;
-        try {
-            MongoClientURI uri = new MongoClientURI(
-                    "mongodb://newshuntuser:newshuntpassword2015@dbh04.mongolab.com:27047/newshuntdatabse");
-
-            client = new MongoClient(uri);
-            db = client.getDB(uri.getDatabase());
-
-        } catch (UnknownHostException e)
-        {
-            e.printStackTrace();
-        }
-
-        collectionName = "documentstore";
-        textToSearchFor = "a";
-
-        final DBObject textSearchCommand = new BasicDBObject();
-        textSearchCommand.put("text", collectionName);
-        textSearchCommand.put("search", textToSearchFor);
-        final CommandResult commandResult = db.command(textSearchCommand);
-        System.out.println("commandResult = " + commandResult);
-        client.close();
-
-
-
-        return null;
-
-    }
 
 }
