@@ -1,7 +1,9 @@
-package com.newshack.mongoDAO;
-
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.regex.Pattern;
 
 import com.mongodb.*;
 
@@ -14,30 +16,27 @@ public class MongoLabConnection {
 
 	public static void main(String[] args) throws UnknownHostException,
 			InterruptedException {
-
-        //TODO- put this logic in the when servlet container starts and also implement purging algo to remove data which are not relevant
+  
 		updateDocumentStore(); //load the database first time rest of the times it gets updated via thread
 		System.out.println("store updted");
 		Timer time = new Timer(); // Instantiate Timer Object
 		ScheduledTask st = new ScheduledTask(); // Instantiate SheduledTask
 												// class
 		time.schedule(st, 1800000, 1800000); // Create Repetitively task for every 30
-										// mins
+								// mins
 		
-		Map Collection = returnDocument("");
-
-		System.out.println(Collection);
-
 	}
 
 	/**
-	 * @throws java.net.UnknownHostException
+	 * this method updates the doument store every 30 minutes
+	 * @throws UnknownHostException
 	 */
 	public static void updateDocumentStore() throws UnknownHostException {
 		String[] urls = {
 				"http://gadgets.ndtv.com/rss/news",
 				"http://timesofindia.feedsportal.com/c/33039/f/533965/index.rss",
-				"http://www.vogella.com/article.rss" };
+				"http://www.vogella.com/article.rss",
+				"http://feeds.feedburner.com/NdtvNews-TopStories"};
 
 		ArrayList<BasicDBObject> seedData = null;
 		MongoClientURI uri = new MongoClientURI(
@@ -57,39 +56,35 @@ public class MongoLabConnection {
 
 	}
 
-    /**
-     * @author : Ganesh  refractor : freakster
-     *
-     * @param key
-     * @return
-     * @throws UnknownHostException
-     */
+	
+	/**
+	 * this method is responsible for returning the documents related to the key, If
+	 * key is null or empty it returns all the documents
+	 * @param key
+	 * @return
+	 * @throws UnknownHostException
+	 */
 	public static Map returnDocument(String key) throws UnknownHostException {
 
 		MongoClientURI uri = new MongoClientURI(
 				"mongodb://newshuntuser:newshuntpassword2015@dbh04.mongolab.com:27047/newshuntdatabse");
 		MongoClient client = new MongoClient(uri);
 		DB db = client.getDB(uri.getDatabase());
-		DBCollection dbCollection = db.getCollection("documentstore");
-        Map collection = new HashMap<String, String>();
-        String[] temp = null;
-        DBCursor docs = null;
+		DBCollection documentstore = db.getCollection("documentstore");
+		DBCursor docs=null;
+		if(key!=null && !key.equals(""))
+		{
+			BasicDBObject findQuery = new BasicDBObject();
+			Pattern regex = Pattern.compile(key); 
+			findQuery.put("document", regex);
+			docs = documentstore.find(findQuery);
+		}
+		else
+			docs = documentstore.find();
+		Map collection = new HashMap<String, String>();
+		String[] temp = null;
 
-        if(key!=null)
-        {
-            //BasicDBObject query = new BasicDBObject("content", key);
-            BasicDBObject query = new BasicDBObject();
-            //BasicDBObject field = new BasicDBObject();
-            query.put(key,"document");
-
-            docs = dbCollection.find(query);
-        }else
-        {
-            docs = dbCollection.find();
-        }
-
-		while (docs.hasNext())
-        {
+		while (docs.hasNext()) {
 			DBObject doc = docs.next();
 			temp = ((String) doc.get("document")).split("!####!");
 			collection.put(temp[0], temp[1]);
@@ -99,9 +94,14 @@ public class MongoLabConnection {
 
 		return collection;
 	}
-
+	
 	// Extra helper code
 
+		/**
+		 * it loads the rss feeds from individual urls
+		 * @param url
+		 * @return
+		 */
 		public static ArrayList<BasicDBObject> createSeedData(String url) {
 
 			ReadFeeds parser = new ReadFeeds(url);
@@ -118,7 +118,4 @@ public class MongoLabConnection {
 
 			return seedData;
 		}
-
-
-
 }

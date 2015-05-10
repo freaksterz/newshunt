@@ -1,5 +1,3 @@
-package com.newshack.mongoDAO;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -13,8 +11,11 @@ import javax.xml.stream.events.XMLEvent;
 
 public class ReadFeeds {
 
+	/**this method is only for debugging the rss feed url's
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		ReadFeeds parser = new ReadFeeds("http://gadgets.ndtv.com/rss/news");
+		ReadFeeds parser = new ReadFeeds("http://feeds.feedburner.com/NdtvNews-TopStories");
 		Feed feed = parser.readFeed();
 		System.out.println(feed);
 		for (FeedMessage message : feed.getMessages()) {
@@ -44,6 +45,10 @@ public class ReadFeeds {
 		}
 	}
 
+	/**
+	 * this method reads all the feeds from the url
+	 * @return
+	 */
 	public Feed readFeed() {
 		Feed feed = null;
 		try {

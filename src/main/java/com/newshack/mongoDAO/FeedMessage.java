@@ -1,5 +1,7 @@
-package com.newshack.mongoDAO;
-
+/**
+ * @author ganesh
+ * this class stores a feed message
+ */
 public class FeedMessage {
 
 	String title;

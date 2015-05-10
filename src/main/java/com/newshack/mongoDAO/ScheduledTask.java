@@ -1,10 +1,8 @@
-package com.newshack.mongoDAO;
-
 import java.net.UnknownHostException;
 import java.util.TimerTask;
 import java.util.Date;
 /**
- * 
+ * This class represents the thread which is created every 30  minutes
  * @author Ganesh.
  */
 

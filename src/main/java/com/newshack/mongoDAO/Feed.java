@@ -1,10 +1,10 @@
-package com.newshack.mongoDAO;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
  * Stores an RSS feed
+ * @author ganesh
+ *
  */
 public class Feed {
 
